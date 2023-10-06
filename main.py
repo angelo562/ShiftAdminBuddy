@@ -1,11 +1,14 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
+import data
 
 # import os
 
 from datetime import timedelta as td
 import helper
+import processor
+
 
 
 """Shift Admin Buddy.  Designed to give schedule stats
@@ -26,9 +29,9 @@ class ShiftAdminBuddy:
     def __init__(self):
         self.holidays = True
         self.weekends = False
-        self.path = helper.Data.path_i
+        self.path = data.Data.path_i
         self.datelist = self.get_datelist_asstring()
-        self.df = helper.get_and_clean_df()
+        self.df = data.Data.df_cleaned
         # self.df = self.compile_df_to_analyze()
             # self.fxn_list = self.collect_fxns()
         # self.beg_date = self.df.Date.min().strftime('%Y-%m-%d')
@@ -47,6 +50,7 @@ class ShiftAdminBuddy:
             df = concat_df(df, query_df(date))
         return df
 
+    # list of holiday or weekend dates to put use with df.query()
     def get_datelist_asstring(self, fxn_list=None, year=2022):
         if self.holidays:
             if fxn_list is None:
@@ -76,7 +80,9 @@ class ShiftAdminBuddy:
 
 
 sab = ShiftAdminBuddy()
-print(sab.datelist)
+# print(sab.datelist)
+print(sab.path)
+print(sab.df)
 
 # "C:\Users\Angel\Downloads\group_stats_detailed_164259_90sxeijc97.xlsx"
 # print(sab.path)

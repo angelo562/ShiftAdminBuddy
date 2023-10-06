@@ -1,14 +1,10 @@
 """
 A collection of helper methods
 """
-import pandas as pd
 import datetime as dt
 import os
-from dataclasses import dataclass
-
-@dataclass
-class Data:
-    path_i: str
+import data
+from data import pandas as pd
 
 def return_path():
 
@@ -102,23 +98,10 @@ def collect_fxns():
     return holiday_list_fxns
 
 
-def get_and_clean_df():
-
-    df = pd.read_excel(Data.path_i, header=1)
-
-    df = df.query("not Date.isna()").reset_index(drop=True)
-
-    df = df.rename(columns={"Work Hrs": "Work_hrs", "Sched Hrs": "Scheduled_hrs",})
-
-    # change Date to datetime dtype
-    df.Date = pd.to_datetime(df.Date)
-
-    # Ensure df.Time is a str
-    df["Time"] = df["Time"].astype(str)
-    # Format Provider names to be title()
-    df.Provider = df.Provider.str.title().astype(str)
-
+def get_df():
+    df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
 
-Data.path_i = return_path()
+data.Data.path_i = return_path()
+data.Data.df = get_df()
