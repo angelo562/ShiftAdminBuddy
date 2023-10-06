@@ -96,6 +96,7 @@ def collect_fxns():
         holiday_list_fxns += minor_holiday_fxns
 
     holiday_list_fxns = holiday_list_fxns
+    data.Data.fxn_list = holiday_list_fxns
     return holiday_list_fxns
 
 
