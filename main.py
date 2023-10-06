@@ -1,9 +1,11 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
-import os
+# import os
 import datetime as dt
 from datetime import timedelta as td
+import helper
+
 
 
 """Shift Admin Buddy.  Designed to give schedule stats
@@ -24,7 +26,7 @@ class ShiftAdminBuddy:
     def __init__(self):
         self.holidays = True
         self.weekends = False
-        self.path = self.return_path()
+        self.path = helper.return_path()
         self.datelist = self.get_datelist_asstring()
         self.df = self.get_and_clean_df()
         self.df = self.compile_df_to_analyze()
@@ -32,16 +34,8 @@ class ShiftAdminBuddy:
         self.beg_date = self.df.Date.min().strftime('%Y-%m-%d')
         self.end_date = (self.df.Date.max()+ td(days=1)).strftime('%Y-%m-%d')
 
-    def return_path(self):
-
-        # inp1 = input(f"Please input location path of group shift stats: ")
-
-        inp1 = r"C:\Users\Angel\Downloads\group_stats_detailed_164259_90sxeijc97.xlsx"
-
-        path1 = os.path.abspath(inp1.strip(' \"'))
-        return fr"{path1}"
-    
-        # GROUP OF FXNS returning dates
+  
+    # GROUP OF FXNS returning dates
 
     def get_thanksgiving_date(self,year):
         # Start with November 1st of the given year
