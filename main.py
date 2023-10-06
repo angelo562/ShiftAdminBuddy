@@ -1,11 +1,11 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
-import data
 
 # import os
 
 from datetime import timedelta as td
+import data
 import helper
 import processor
 
@@ -27,16 +27,13 @@ Include Major holidays, minor holidays, weekends, nights
 
 class ShiftAdminBuddy:
     def __init__(self):
-        self.holidays = True
-        self.weekends = False
         self.path = data.Data.path_i
-        # self.datelist = self.get_datelist_asstring()
         self.df = data.Data.df_cleaned
-        self.df = data.Data.df_to_analyze
+        self.df_a = data.Data.df_to_analyze
             # self.fxn_list = self.collect_fxns()
         # self.beg_date = self.df.Date.min().strftime('%Y-%m-%d')
         # self.end_date = (self.df.Date.max()+ td(days=1)).strftime('%Y-%m-%d')
-
+        data.Data.holidays = True
 
 
 
@@ -60,13 +57,9 @@ class ShiftAdminBuddy:
 
 
 sab = ShiftAdminBuddy()
-# print(sab.datelist)
-print(sab.path)
-print(sab.df)
-
-# "C:\Users\Angel\Downloads\group_stats_detailed_164259_90sxeijc97.xlsx"
 # print(sab.path)
-# sab.df.info()
-# sab.count_holidays()
-# print(sab.end_date)
-# print(sab.beg_date)
+print(sab.df)
+print(sab.df_a)
+# print(data.Data.fxn_list)
+
+

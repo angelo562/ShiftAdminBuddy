@@ -103,7 +103,6 @@ def get_df():
     df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
-
 # list of holiday or weekend dates to put use with df.query()
 def get_datelist_asstring(fxn_list=None, year=2022):
     if data.Data.holidays:
@@ -116,7 +115,7 @@ def get_datelist_asstring(fxn_list=None, year=2022):
         return sorted(date_list_asstring)
 
 
-data.Data.holidays = True
+
 data.Data.path_i = return_path()
 data.Data.df = get_df()
 data.Data.dates_to_query = get_datelist_asstring()  # maybe insert YEAR ARGUMENT HERE

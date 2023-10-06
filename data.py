@@ -9,5 +9,7 @@ class Data:
     dates_to_query : list #list of strings
     df_to_analyze: pandas.core.frame.DataFrame
     fxn_list: list
-    holidays : bool
+    holidays : bool = True
+    weekends : bool = False
+
 
