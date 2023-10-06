@@ -26,11 +26,11 @@ class ShiftAdminBuddy:
     def __init__(self):
         self.holidays = True
         self.weekends = False
-        self.path = helper.path
+        self.path = helper.Data.path_i
         self.datelist = self.get_datelist_asstring()
-        # self.df = self.get_and_clean_df()
+        self.df = helper.get_and_clean_df()
         # self.df = self.compile_df_to_analyze()
-        # self.fxn_list = self.collect_fxns()
+            # self.fxn_list = self.collect_fxns()
         # self.beg_date = self.df.Date.min().strftime('%Y-%m-%d')
         # self.end_date = (self.df.Date.max()+ td(days=1)).strftime('%Y-%m-%d')
 

@@ -1,9 +1,14 @@
 """
 A collection of helper methods
 """
-
+import pandas as pd
 import datetime as dt
 import os
+from dataclasses import dataclass
+
+@dataclass
+class Data:
+    path_i: str
 
 def return_path():
 
@@ -99,7 +104,7 @@ def collect_fxns():
 
 def get_and_clean_df():
 
-    df = pd.read_excel(path, header=1)
+    df = pd.read_excel(Data.path_i, header=1)
 
     df = df.query("not Date.isna()").reset_index(drop=True)
 
@@ -116,5 +121,4 @@ def get_and_clean_df():
     return df
 
 
-
-path = return_path()
+Data.path_i = return_path()
