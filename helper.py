@@ -6,6 +6,7 @@ import os
 import data
 from data import pandas as pd
 
+
 def return_path():
 
     # inp1 = input(f"Please input location path of group shift stats: ")
@@ -103,5 +104,19 @@ def get_df():
     return df
 
 
+# list of holiday or weekend dates to put use with df.query()
+def get_datelist_asstring(fxn_list=None, year=2022):
+    if data.Data.holidays:
+        if fxn_list is None:
+            fxn_list = collect_fxns()
+
+        date_list_asstring = []
+        for fxn in fxn_list:
+            date_list_asstring.append(fxn(year).strftime("%Y-%m-%d"))
+        return sorted(date_list_asstring)
+
+
+data.Data.holidays = True
 data.Data.path_i = return_path()
 data.Data.df = get_df()
+data.Data.dates_to_query = get_datelist_asstring()  # maybe insert YEAR ARGUMENT HERE
