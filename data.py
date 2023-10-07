@@ -9,6 +9,7 @@ class Data:
     dates_to_query : list #list of strings
     beg_date : str
     end_date : str
+    
     beg_year : str
     end_year : str
     df_to_analyze: pandas.core.frame.DataFrame

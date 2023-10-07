@@ -32,14 +32,13 @@ def compile_rows_to_analyze(df0):
         df = concat_df(df, query_df(date, df0))
     return df
 
-# This needs to be run, to clean df, 
-# save as Data.df_cleaned
-# and run through compile rows
 def process():
+    # This needs to be run, to clean df, 
+    # save as Data.df_cleaned
+    # and run through compile rows
     df = data.Data.df
     df = clean_df(df)
     data.Data.df_cleaned = df
-    
     data.Data.df_to_analyze = compile_rows_to_analyze(df)
 
 

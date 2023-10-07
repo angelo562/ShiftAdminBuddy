@@ -35,7 +35,7 @@ class ShiftAdminBuddy:
         data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
 
     def count(self):
-
+        
         df_b = (
             self.df_a.sort_values(by="Provider")
             .reset_index(drop=True)
@@ -57,8 +57,26 @@ class ShiftAdminBuddy:
 
         return self.count()
     
+    def set_date_range(self, beg: str, end: str):
+        # checks date to not be too early or too late
+        # changes data.Beg_date and data.end_date
+        if type(beg) != str or type(end) != str :
+            ic(f"string format is needed in style '2022-01-01")
+            return False
+        data.Data.beg_date = beg
+        data.Data.end_date = end
+        ic(f"Beginning date is now {beg} and end date is {end}")
+        return True
+    
     # stats
     def describe(self):
+        # Should give us earliest and latest date
+        ic(data.Data.beg_date)
+        ic(data.Data.end_date)
+
+        # Should give us # of providers
+
+        # Give us shift ratios of Providers F/ BD/ S/ C
         pass
 
 if __name__ == "__main__":
@@ -67,7 +85,12 @@ if __name__ == "__main__":
     processor.process()
 
     sab = ShiftAdminBuddy()
-    sab.describe()
+    # sab.set_date_range('2023-01-01', 10)
 
-    ic(sab.v_count_holidays('2021-01-01', '2024-01-01'))
-    ic(data.Data.dates_to_query)
+    sab.set_date_range('2023-02-02', '2023-10-10')
+    ic(data.Data.beg_date)
+    ic(data.Data.end_date)
+
+
+    # ic(sab.v_count_holidays('2021-01-01', '2024-01-01'))
+    # ic(data.Data.dates_to_query)

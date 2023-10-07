@@ -104,8 +104,9 @@ def get_initial_df():
     df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
-# list of holiday or weekend dates to put use with df.query()
-def get_datelist_asstring(fxn_list=None, beg_year=None, end_year=None): # default should be whole list?
+def get_datelist_asstring(fxn_list=None, beg_year=None, end_year=None): 
+    # default should be whole list?
+    # list of holiday or weekend dates to put use with df.query()
     # get 2 years 
 
     years = [
