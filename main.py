@@ -8,6 +8,7 @@ from datetime import timedelta as td
 import data
 import helper
 import processor
+from icecream import ic
 
 
 """Shift Admin Buddy.  Designed to give schedule stats
@@ -68,14 +69,5 @@ if __name__ == "__main__":
     sab = ShiftAdminBuddy()
     sab.describe()
 
-    # print(sab.path)
-    # print(sab.df)
-    # print(sab.df_a)
-    print(sab.v_count_holidays('2021-01-01', '2024-01-01'))
-
-    # print(data.Data.fxn_list)
-    print(data.Data.dates_to_query)
-    # sab.set_beg_date
-
-    # print(sab.beg_date)
-    # print(sab.end_date)
+    ic(sab.v_count_holidays('2021-01-01', '2024-01-01'))
+    ic(data.Data.dates_to_query)
