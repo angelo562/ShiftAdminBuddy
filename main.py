@@ -10,7 +10,6 @@ import helper
 import processor
 
 
-
 """Shift Admin Buddy.  Designed to give schedule stats
 
 input: Group Shift stats in excel format
@@ -30,41 +29,53 @@ class ShiftAdminBuddy:
         self.path = data.Data.path_i
         self.df = data.Data.df_cleaned
         self.df_a = data.Data.df_to_analyze
-            # self.fxn_list = self.collect_fxns()
-        self.beg_date = self.df.Date.min().strftime('%Y-%m-%d')
-        self.end_date = (self.df.Date.max()+ td(days=1)).strftime('%Y-%m-%d')
+        # self.fxn_list = self.collect_fxns()
+        data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
+        data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
 
     def count(self):
+
         df_b = (
             self.df_a.sort_values(by="Provider")
             .reset_index(drop=True)
             .Provider.value_counts()
         )
         return df_b
-    
-    def v_count_holidays(self):
+
+    def v_count_holidays(self, beg_date:str=None, end_date:str=None):
         data.Data.holidays = True
         data.Data.weekends = False
+        beg_date = beg_date
+        end_date = end_date
+        data.Data.dates_to_query = helper.get_datelist_asstring(None, beg_date, end_date)
         return self.count()
 
     def v_count_weekends(self):
         data.Data.holidays = False
         data.Data.weekends = True
+
         return self.count()
+    
+    # stats
+    def describe(self):
+        pass
 
-sab = ShiftAdminBuddy()
-# print(sab.path)
-# print(sab.df)
-# print(sab.df_a)
-print(sab.v_count_holidays())
+if __name__ == "__main__":
+    helper.helper()
+    data.Data.dates_to_query = helper.get_datelist_asstring()  # maybe insert YEAR ARGUMENT HERE
+    processor.process()
 
-# print(data.Data.fxn_list)
-# sab.set_beg_date
+    sab = ShiftAdminBuddy()
+    sab.describe()
 
-# print(sab.beg_date)
-# print(sab.end_date)
+    # print(sab.path)
+    # print(sab.df)
+    # print(sab.df_a)
+    print(sab.v_count_holidays('2021-01-01', '2024-01-01'))
 
+    # print(data.Data.fxn_list)
+    print(data.Data.dates_to_query)
+    # sab.set_beg_date
 
-
-
-
+    # print(sab.beg_date)
+    # print(sab.end_date)

@@ -11,7 +11,7 @@ def return_path():
 
     # inp1 = input(f"Please input location path of group shift stats: ")
 
-    inp1 = r"C:\Users\Angel\Downloads\group_stats_detailed_164259_90sxeijc97.xlsx"
+    inp1 = r"C:\Users\Angel\Downloads\group_stats_detailed_152748_rsxaj713b9.xlsx"
 
     path1 = os.path.abspath(inp1.strip(' "'))
     return fr"{path1}"
@@ -64,7 +64,7 @@ def get_mothers_day_date(year):
     return date
 
 
-def get_halloween_date(year):
+def get_halloween_date(year:int):
     return dt.date(year, 10, 31)
 
 
@@ -100,23 +100,38 @@ def collect_fxns():
     return holiday_list_fxns
 
 
-def get_df():
+def get_initial_df():
     df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
 # list of holiday or weekend dates to put use with df.query()
-def get_datelist_asstring(fxn_list=None, year=2022):
+def get_datelist_asstring(fxn_list=None, beg_year=None, end_year=None): # default should be whole list?
+    # get 2 years 
+
+    years = [
+        dt.datetime.now().year,
+        dt.datetime.now().year -1,
+    ]
+
+
     if data.Data.holidays:
         if fxn_list is None:
             fxn_list = collect_fxns()
 
         date_list_asstring = []
         for fxn in fxn_list:
-            date_list_asstring.append(fxn(year).strftime("%Y-%m-%d"))
+            for year in years:
+                date_list_asstring.append(fxn(year).strftime("%Y-%m-%d"))
         return sorted(date_list_asstring)
+    
+    # elif data.Data.weekends:
+    #     # date_range = pd.date_range(start= self.beg_date, end= self.end_date)
+    #     weekends = date_range[date_range.isin([5,6])]  # 5 and 6 is Sat/Sun
+    #     weekend_date_list = weekends.strftime('%Y-%m-%d').tolist()
+    #     return sorted(weekend_date_list)
+
+def helper():
+    data.Data.path_i = return_path()
+    data.Data.df = get_initial_df()
 
 
-
-data.Data.path_i = return_path()
-data.Data.df = get_df()
-data.Data.dates_to_query = get_datelist_asstring()  # maybe insert YEAR ARGUMENT HERE
