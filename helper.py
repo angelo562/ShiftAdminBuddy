@@ -100,11 +100,13 @@ def get_initial_df():
     df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
-def get_list_dates(fxn_list):
+def get_list_dates(fxn_list)->list[str,str]:
 
     # get 2 years
     years = [dt.datetime.now().year,
              dt.datetime.now().year - 1,]
+    
+
     date_list_asstring = []
     for fxn in fxn_list:
         for year in years:
@@ -150,8 +152,4 @@ def get_datelist_asstring():
     #     return sorted(weekend_date_list)
 
 
-def helper():
-    data.Data.path_i = return_path()
-    data.Data.df = get_initial_df()
-    get_datelist_asstring()  # initializes dates to query
 

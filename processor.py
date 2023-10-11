@@ -32,14 +32,6 @@ def compile_rows_to_analyze(df0):
         df = concat_df(df, query_df(date, df0))
     return df
 
-def process():
-    df = data.Data.df            # pulls from Data, to clean
-    
-    df = clean_df(df)            # removes duplicates
-    data.Data.df_cleaned = df    # saves as df_cleaned
-
-    # all queried dates are concatenated and saved to dataclass
-    data.Data.df_to_analyze = compile_rows_to_analyze(df)   
 
 
     

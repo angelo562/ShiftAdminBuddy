@@ -6,7 +6,7 @@ class Data:
     path_i: str
     
     #initially from helper() 
-    df : pandas.core.frame.DataFrame 
+    # df : pandas.core.frame.DataFrame 
 
     df_cleaned: pandas.core.frame.DataFrame
     dates_to_query : list #list of strings

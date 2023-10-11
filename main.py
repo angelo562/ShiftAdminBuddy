@@ -80,9 +80,17 @@ class ShiftAdminBuddy:
 
 
 def initialize():
-    helper.helper()
-    processor.process()
+    data.Data.path_i = helper.return_path()
+    df = helper.get_initial_df()
+    helper.get_datelist_asstring()
 
+    df = processor.clean_df(df)  # removes duplicates
+    data.Data.df_cleaned = df            # saves it to Dataclass
+
+    # ic(data.Data.dates_to_query)
+
+    # all queried dates are concatenated and saved to dataclass
+    data.Data.df_to_analyze = processor.compile_rows_to_analyze(df)
 
 if __name__ == "__main__":
     initialize()
