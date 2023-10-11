@@ -5,7 +5,7 @@ import datetime as dt
 import os
 import data
 from data import pandas as pd
-
+import icecream as ic
 
 def return_path():
 
@@ -64,14 +64,9 @@ def get_mothers_day_date(year):
     return date
 
 
-def get_halloween_date(year:int):
+def get_halloween_date(year: int):
     return dt.date(year, 10, 31)
 
-
-minor_holiday_fxns = [
-    get_mothers_day_date,
-    get_halloween_date,
-]
 
 major_holiday_fxns = [
     get_thanksgiving_date,
@@ -82,57 +77,81 @@ major_holiday_fxns = [
     get_new_years_date,
 ]
 
+minor_holiday_fxns = [
+    get_mothers_day_date,
+    get_halloween_date,
+]
+
+
 # collect what fxns to run
-def collect_fxns():
+def collect_h_fxns(minor_h:bool):
 
-    holiday_list_fxns = []
-    major_h = True
-    minor_h = True
-
-    if major_h:
-        holiday_list_fxns += major_holiday_fxns
+    holiday_fxs = major_holiday_fxns
+    # minor_h = data.Data.minor_holidays
 
     if minor_h:
-        holiday_list_fxns += minor_holiday_fxns
+        holiday_fxs += minor_holiday_fxns  # combine 2 lists if minor_h:
 
-    holiday_list_fxns = holiday_list_fxns
-    data.Data.fxn_list = holiday_list_fxns
-    return holiday_list_fxns
+    data.Data.fxn_list = holiday_fxs
+    return holiday_fxs
 
 
 def get_initial_df():
     df = pd.read_excel(data.Data.path_i, header=1)
     return df
 
-def get_datelist_asstring(fxn_list=None, beg_year=None, end_year=None): 
+def get_list_dates(fxn_list):
+
+    # get 2 years
+    years = [dt.datetime.now().year,
+             dt.datetime.now().year - 1,]
+    date_list_asstring = []
+    for fxn in fxn_list:
+        for year in years:
+            date_list_asstring.append(fxn(year).strftime("%Y-%m-%d"))
+    return sorted(date_list_asstring)    
+
+
+def if_all_holidays():
+    # Gives a list of date strings if minorholidays:
+    fxn_list = collect_h_fxns(minor_h=True)
+    return get_list_dates(fxn_list)
+
+def if_major_holidays():
+    # then only give major holidays
+    fxn_list = collect_h_fxns(minor_h=False)
+    return get_list_dates(fxn_list)
+
+def if_weekends():
+    # Gives a list of date strings if_weekends:
+    pass
+
+
+
+def get_datelist_asstring():
     # default should be whole list?
     # list of holiday or weekend dates to put use with df.query()
-    # get 2 years 
 
-    years = [
-        dt.datetime.now().year,
-        dt.datetime.now().year -1,
-    ]
-
-
-    if data.Data.holidays:
-        if fxn_list is None:
-            fxn_list = collect_fxns()
-
-        date_list_asstring = []
-        for fxn in fxn_list:
-            for year in years:
-                date_list_asstring.append(fxn(year).strftime("%Y-%m-%d"))
-        return sorted(date_list_asstring)
     
+    # if data.Data.Weekends:
+    #     pass
+    
+    if data.Data.minor_holidays == True:
+        data.Data.dates_to_query = if_all_holidays()
+    
+    else:
+        data.Data.dates_to_query = if_major_holidays()
+        
+
     # elif data.Data.weekends:
     #     # date_range = pd.date_range(start= self.beg_date, end= self.end_date)
     #     weekends = date_range[date_range.isin([5,6])]  # 5 and 6 is Sat/Sun
     #     weekend_date_list = weekends.strftime('%Y-%m-%d').tolist()
     #     return sorted(weekend_date_list)
 
+
 def helper():
     data.Data.path_i = return_path()
     data.Data.df = get_initial_df()
-
+    get_datelist_asstring()  # initializes dates to query
 

@@ -33,13 +33,13 @@ def compile_rows_to_analyze(df0):
     return df
 
 def process():
-    # This needs to be run, to clean df, 
-    # save as Data.df_cleaned
-    # and run through compile rows
-    df = data.Data.df
-    df = clean_df(df)
-    data.Data.df_cleaned = df
-    data.Data.df_to_analyze = compile_rows_to_analyze(df)
+    df = data.Data.df            # pulls from Data, to clean
+    
+    df = clean_df(df)            # removes duplicates
+    data.Data.df_cleaned = df    # saves as df_cleaned
+
+    # all queried dates are concatenated and saved to dataclass
+    data.Data.df_to_analyze = compile_rows_to_analyze(df)   
 
 
     

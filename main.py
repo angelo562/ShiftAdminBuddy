@@ -30,12 +30,11 @@ class ShiftAdminBuddy:
         self.path = data.Data.path_i
         self.df = data.Data.df_cleaned
         self.df_a = data.Data.df_to_analyze
-        # self.fxn_list = self.collect_fxns()
         data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
         data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
 
-    def count(self):
-        
+    def count(self)->pd.Series:
+        # helper.get_datelist_asstring()
         df_b = (
             self.df_a.sort_values(by="Provider")
             .reset_index(drop=True)
@@ -46,9 +45,9 @@ class ShiftAdminBuddy:
     def v_count_holidays(self, beg_date:str=None, end_date:str=None):
         data.Data.holidays = True
         data.Data.weekends = False
-        beg_date = beg_date
-        end_date = end_date
-        data.Data.dates_to_query = helper.get_datelist_asstring(None, beg_date, end_date)
+        data.Data.beg_date = beg_date
+        data.Data.end_date = end_date
+        # data.Data.dates_to_query = helper.get_datelist_asstring(None, beg_date, end_date)
         return self.count()
 
     def v_count_weekends(self):
@@ -79,18 +78,18 @@ class ShiftAdminBuddy:
         # Give us shift ratios of Providers F/ BD/ S/ C
         pass
 
-if __name__ == "__main__":
+
+def initialize():
     helper.helper()
-    data.Data.dates_to_query = helper.get_datelist_asstring()  # maybe insert YEAR ARGUMENT HERE
     processor.process()
 
+
+if __name__ == "__main__":
+    initialize()
     sab = ShiftAdminBuddy()
+
     # sab.set_date_range('2023-01-01', 10)
+    # sab.set_date_range('2023-02-02', '2023-10-10') 
 
-    sab.set_date_range('2023-02-02', '2023-10-10')
-    ic(data.Data.beg_date)
-    ic(data.Data.end_date)
-
-
-    # ic(sab.v_count_holidays('2021-01-01', '2024-01-01'))
+    ic(sab.v_count_holidays())
     # ic(data.Data.dates_to_query)
