@@ -18,18 +18,9 @@ def clean_df(df):
 
     return df
 
-def concat_df(df_1, df_2):
-        return pd.concat([df_1, df_2], axis=0)
-
-def query_df(date, df):
-        date = date
-        return df.query("Date == @date")
-
 def compile_rows_to_analyze(df0):
     datelist = data.Data.dates_to_query
-    df = query_df(datelist[0], df0)
-    for date in datelist[1:]:
-        df = concat_df(df, query_df(date, df0))
+    df = df0[df0.Date.isin(datelist)]
     return df
 
 

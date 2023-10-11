@@ -102,7 +102,10 @@ def get_initial_df():
 
 def get_list_dates(fxn_list)->list[str,str]:
 
-    # get 2 years
+    # get the range from data
+    
+
+    # get 2 years if there's no change in beg_date/end_date
     years = [dt.datetime.now().year,
              dt.datetime.now().year - 1,]
     
