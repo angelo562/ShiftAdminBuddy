@@ -27,14 +27,18 @@ Include Major holidays, minor holidays, weekends, nights
 
 class ShiftAdminBuddy:
     def __init__(self):
-        self.path = data.Data.path_i
+        # self.path = data.Data.path_i
         self.df = data.Data.df_cleaned
         self.df_a = data.Data.df_to_analyze
-        data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
-        data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
+
+        
+        # data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
+        # data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
+        
+
 
     def count(self)->pd.Series:
-        # helper.get_datelist_asstring()
+        # helper.get_datelist()
         df_b = (
             self.df_a.sort_values(by="Provider")
             .reset_index(drop=True)
@@ -47,7 +51,7 @@ class ShiftAdminBuddy:
         data.Data.weekends = False
         data.Data.beg_date = beg_date
         data.Data.end_date = end_date
-        # data.Data.dates_to_query = helper.get_datelist_asstring(None, beg_date, end_date)
+        # data.Data.dates_to_query = helper.get_datelist(None, beg_date, end_date)
         return self.count()
 
     def v_count_weekends(self):
@@ -74,7 +78,6 @@ class ShiftAdminBuddy:
         ic(data.Data.end_date)
 
         # Should give us # of providers
-
         # Give us shift ratios of Providers F/ BD/ S/ C
         pass
 
@@ -82,7 +85,12 @@ class ShiftAdminBuddy:
 def initialize():
     data.Data.path_i = helper.return_path()
     df = helper.get_initial_df()
-    helper.get_datelist_asstring()
+    # data.Data.beg_date = df.Date.min()
+    # data.Data.end_date = df.Date.max()
+    data.Data.beg_date = pd.to_datetime(f'{2022}-05-01')
+    data.Data.end_date = pd.to_datetime(f'{2023}-11-30')
+
+    helper.get_datelist()  # gets datelists and saves it to Data
 
     df = processor.clean_df(df)  # removes duplicates
     data.Data.df_cleaned = df            # saves it to Dataclass
