@@ -162,14 +162,7 @@ def if_weekends():
 
 
 
-def get_datelist():
-    # default should be whole list?
-    # list of holiday or weekend dates to put use with df.query()
-
-    
-    # if data.Data.Weekends:
-    #     pass
-    
+def get_datelist() -> None:
     if data.Data.minor_holidays == True:
         data.Data.dates_to_query = if_all_holidays()
     

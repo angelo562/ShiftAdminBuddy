@@ -2,9 +2,7 @@ import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 
-# import os
-
-from datetime import timedelta as td
+# from datetime import timedelta as td
 import data
 import helper
 import processor
@@ -27,9 +25,9 @@ Include Major holidays, minor holidays, weekends, nights
 
 class ShiftAdminBuddy:
     def __init__(self):
-        # self.path = data.Data.path_i
-        self.df = data.Data.df_cleaned
-        self.df_a = data.Data.df_to_analyze
+        self.path = data.Data.path_i
+        self.df_cleaned = data.Data.df_cleaned
+        self.df_queried = data.Data.df_to_analyze
 
         
         # data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
@@ -39,12 +37,12 @@ class ShiftAdminBuddy:
 
     def count(self)->pd.Series:
         # helper.get_datelist()
-        df_b = (
-            self.df_a.sort_values(by="Provider")
+        df_valuecounts = (
+            self.df_queried.sort_values(by="Provider")
             .reset_index(drop=True)
             .Provider.value_counts()
         )
-        return df_b
+        return df_valuecounts
 
     def v_count_holidays(self, beg_date:str=None, end_date:str=None):
         data.Data.holidays = True
@@ -85,25 +83,22 @@ class ShiftAdminBuddy:
 def initialize():
     data.Data.path_i = helper.return_path()
     df = helper.get_initial_df()
-    # data.Data.beg_date = df.Date.min()
-    # data.Data.end_date = df.Date.max()
-    data.Data.beg_date = pd.to_datetime(f'{2022}-05-01')
-    data.Data.end_date = pd.to_datetime(f'{2023}-11-30')
-
-    helper.get_datelist()  # gets datelists and saves it to Data
 
     df = processor.clean_df(df)  # removes duplicates
     data.Data.df_cleaned = df            # saves it to Dataclass
 
-    # ic(data.Data.dates_to_query)
+    helper.get_datelist()  # gets datelists and saves it to Data, returns none
 
-    # all queried dates are concatenated and saved to dataclass
-    data.Data.df_to_analyze = processor.compile_rows_to_analyze(df)
+    # all queried dates are used to filter df
+    data.Data.df_to_analyze = processor.filter_rows(df)
 
 if __name__ == "__main__":
     initialize()
     sab = ShiftAdminBuddy()
 
+    ic(data.Data.dates_to_query)
+    # ic(data.Data.beg_date)
+    # ic(data.Data.end_date)
     # sab.set_date_range('2023-01-01', 10)
     # sab.set_date_range('2023-02-02', '2023-10-10') 
 
