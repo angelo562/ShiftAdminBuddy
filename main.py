@@ -27,13 +27,10 @@ class ShiftAdminBuddy:
     def __init__(self):
         self.path = data.Data.path_i
         self.df_cleaned = data.Data.df_cleaned
-        self.df_queried = data.Data.df_to_analyze
-
+        self.df_queried = data.Data.df_queried
+        self.beginning_date = data.Data.beg_date
+        self.end_date = data.Data.end_date
         
-        # data.Data.beg_date = self.df.Date.min().strftime("%Y-%m-%d")
-        # data.Data.end_date = (self.df.Date.max() + td(days=1)).strftime("%Y-%m-%d")
-        
-
 
     def count(self)->pd.Series:
         # helper.get_datelist()
@@ -84,23 +81,21 @@ def initialize():
     data.Data.path_i = helper.return_path()
     df = helper.get_initial_df()
 
-    df = processor.clean_df(df)  # removes duplicates
-    data.Data.df_cleaned = df            # saves it to Dataclass
+    df = processor.clean_and_save_attributes(df)
 
     helper.get_datelist()  # gets datelists and saves it to Data, returns none
 
     # all queried dates are used to filter df
-    data.Data.df_to_analyze = processor.filter_rows(df)
+    data.Data.df_queried = processor.filter_rows(df)
 
 if __name__ == "__main__":
     initialize()
     sab = ShiftAdminBuddy()
 
-    ic(data.Data.dates_to_query)
+    # ic(data.Data.dates_to_query)
     # ic(data.Data.beg_date)
     # ic(data.Data.end_date)
     # sab.set_date_range('2023-01-01', 10)
     # sab.set_date_range('2023-02-02', '2023-10-10') 
 
     ic(sab.v_count_holidays())
-    # ic(data.Data.dates_to_query)

@@ -4,6 +4,14 @@ import data
 from data import pandas as pd
 
 
+def clean_and_save_attributes(df0):
+    df_cleaned = clean_df(df0)
+    data.Data.df_cleaned = df_cleaned
+    data.Data.beg_date = df_cleaned.Date.min()
+    data.Data.end_date = df_cleaned.Date.max()
+    return df_cleaned
+
+
 def clean_df(df):
     df = df.query("not Date.isna()").reset_index(drop=True)
     df = df.rename(columns={"Work Hrs": "Work_hrs", "Sched Hrs": "Scheduled_hrs",})
@@ -15,22 +23,11 @@ def clean_df(df):
     df["Time"] = df["Time"].astype(str)
     # Format Provider names to be title()
     df.Provider = df.Provider.str.title().astype(str)
-
-
-    save_beginning_end_dates(df.Date)
-
     return df
 
-def save_beginning_end_dates(Date_series) -> None:
-    data.Data.beg_date = Date_series.min()
-    data.Data.end_date = Date_series.max()
 
 def filter_rows(df0):
     datelist = data.Data.dates_to_query
-    df = df0[df0.Date.isin(datelist)]
-    return df
-
-
-
-    
+    df_queried = df0[df0.Date.isin(datelist)]
+    return df_queried
 

@@ -10,12 +10,12 @@ class Data:
 
     df_cleaned: pandas.core.frame.DataFrame
     dates_to_query : list #list of strings
-    beg_date : str
-    end_date : str
-    df_to_analyze: pandas.core.frame.DataFrame
+    beg_date : pandas.DatetimeIndex
+    end_date : pandas.DatetimeIndex
+    df_queried: pandas.core.frame.DataFrame
 
-    beg_year : str
-    end_year : str
+    beg_year : int
+    end_year : int
     fxn_list: list
     holidays : bool = True
     weekends : bool = False
