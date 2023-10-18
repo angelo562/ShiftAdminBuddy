@@ -17,7 +17,9 @@ class Data:
     beg_year : int
     end_year : int
     fxn_list: list
-    holidays : bool = True
     weekends : bool = False
     minor_holidays: bool = True
+    major_holidays: bool = True
+
+
 
